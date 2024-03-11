@@ -14,6 +14,7 @@ class User {
         userId = id;
         userName = name;
         password = userPassword;
+        accounts = new ArrayList<>();
     }
 
     // getters
@@ -51,7 +52,9 @@ class User {
     }
     
     public void addAccount(Account account){
-        this.accounts.add(account);
+        if (!account.hasUser()) {
+            this.accounts.add(account);
+        }
     }
 
     
