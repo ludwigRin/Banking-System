@@ -50,11 +50,19 @@ class User {
     public void setAccounts(ArrayList<Account> accounts) {
         this.accounts = accounts;
     }
-    
-    public void addAccount(Account account){
-        if (!account.hasUser()) {
-            this.accounts.add(account);
+    public void addAccount(Account account) {
+        boolean accountNotAlreadyAssigned = true;
+        for (Account i : accounts) {
+            if (account == i) {
+                accountNotAlreadyAssigned = false;
+            }
         }
+        if (accountNotAlreadyAssigned) {
+            this.accounts.add(account);
+        } else {
+            System.out.println("This account is already assigned to the user");
+        }
+        
     }
 
     
@@ -80,7 +88,5 @@ class User {
         } else {
             System.out.println("Wrong password!");
         }
-        in.close();
     }
-
 }

@@ -6,8 +6,7 @@ public class Account {
 
 
     // constructor
-
-    public Account(int accountNr, String type){
+    public Account(int accountNr, String type) {
         accountNumber = accountNr;
         accountType = type;
     }
@@ -53,23 +52,10 @@ public class Account {
         accountBalance += amount;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    // withdraw
+    public void withdraw(double amount) {
+        accountBalance -= amount;
+    }
 
 
 }
