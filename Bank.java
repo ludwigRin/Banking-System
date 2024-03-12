@@ -1,6 +1,6 @@
 public class Bank {
     
-    public void createAccount(User userId) {
+    public void createAccount() {
 
     }
 }

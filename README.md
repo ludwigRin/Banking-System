@@ -1,3 +1,3 @@
 # Banking System
 
-Second project to practive OOP
+Second project to practice OOP

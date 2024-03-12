@@ -11,6 +11,4 @@ public class Transaction {
         this.amount = amount;
         this.transactionType = transactionType;
     }
-
-
 }
