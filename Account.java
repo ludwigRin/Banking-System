@@ -57,5 +57,9 @@ public class Account {
         accountBalance -= amount;
     }
 
-
+    // transfer
+    public void transfer(Account sender, Account recipient, Double amount) {
+        sender.accountBalance -= amount;
+        recipient.accountBalance += amount;
+    }
 }
