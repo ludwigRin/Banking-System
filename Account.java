@@ -43,6 +43,10 @@ public class Account {
     public double getBalance() {
         return accountBalance;
     }
+    public ArrayList<Transaction> getTransactions() {
+        return transactions;
+    }
+
 
     // setter
     public void setAccountType(String newType) {
@@ -53,21 +57,5 @@ public class Account {
     }
     public void addTransaction(Transaction transaction) {
         this.transactions.add(transaction);
-    }
-
-    // deposit
-    public void deposit(double amount) {
-        accountBalance += amount;
-    }
-
-    // withdraw
-    public void withdraw(double amount) {
-        accountBalance -= amount;
-    }
-
-    // transfer
-    public void transfer(Account sender, Account recipient, Double amount) {
-        sender.accountBalance -= amount;
-        recipient.accountBalance += amount;
     }
 }

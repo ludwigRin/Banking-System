@@ -48,9 +48,9 @@ class User {
         this.password = newPassword;
     }
 
-    // useless?!
-    public void setAccounts(ArrayList<Account> accounts) {
-        this.accounts = accounts;
+    
+    public void deleteAccounts() {
+        this.accounts = null;
     
     }
     public void addAccount(Account account) {
@@ -91,5 +91,6 @@ class User {
         } else {
             System.out.println("Wrong password!");
         }
+        in.close();
     }
 }
