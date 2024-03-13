@@ -6,7 +6,6 @@ class User {
     private final int userId;
     private String userName;
     private String password;
-    //private double balance;
     private ArrayList<Account> accounts;
 
     // constructor
@@ -14,6 +13,7 @@ class User {
         userId = id;
         userName = name;
         password = userPassword;
+        // TODO fix this
         accounts = new ArrayList<>();
     }
 
@@ -47,8 +47,11 @@ class User {
     public void setPassword(String newPassword) {
         this.password = newPassword;
     }
+
+    // useless?!
     public void setAccounts(ArrayList<Account> accounts) {
         this.accounts = accounts;
+    
     }
     public void addAccount(Account account) {
         boolean accountNotAlreadyAssigned = true;

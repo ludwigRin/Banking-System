@@ -1,19 +1,24 @@
+import java.util.ArrayList;
+
+
 public class Account {
     private final int accountNumber;
     private String accountType;
     private double accountBalance;
     private User user;
+    private ArrayList<Transaction> transactions;
 
 
     // constructor
     public Account(int accountNr, String type) {
         accountNumber = accountNr;
         accountType = type;
+        transactions = new ArrayList<>();
     }
 
     public Account(int accountNr, String type, User user) {
         this(accountNr, type); 
-
+        
         
         if (!this.hasUser()){
             this.user = user;
@@ -45,6 +50,9 @@ public class Account {
     }
     public void setBalance(double newBalance) {
         this.accountBalance = newBalance;
+    }
+    public void addTransaction(Transaction transaction) {
+        this.transactions.add(transaction);
     }
 
     // deposit
