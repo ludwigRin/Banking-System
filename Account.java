@@ -6,14 +6,13 @@ public class Account {
     private String accountType;
     private double accountBalance;
     private User user;
-    private ArrayList<Transaction> transactions;
+    private ArrayList<Transaction> transactions = new ArrayList<>();
 
 
     // constructor
     public Account(int accountNr, String type) {
         accountNumber = accountNr;
         accountType = type;
-        transactions = new ArrayList<>();
     }
 
     public Account(int accountNr, String type, User user) {

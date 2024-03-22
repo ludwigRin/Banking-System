@@ -8,17 +8,20 @@ public class Transaction {
     Account recipient;
     Account owner;
 
+
+
     // constructor
-    public Transaction (int transactionId, Timestamp timeStamp, double amount, String transactionType, Account owner) {
-        this.transactionId = transactionId;
+    public Transaction (Bank bank, Timestamp timeStamp, double amount, String transactionType, Account owner) {
+        this.transactionId = bank.getAllTransactions().size();
         this.timeStamp = timeStamp;
         this.amount = amount;
         this.transactionType = transactionType;
         this.owner = owner;
     }
 
-    public Transaction (int transactionId, Timestamp timeStamp, double amount, String transactionType, Account owner, Account recipient) {
-        this(transactionId, timeStamp, amount, transactionType, owner);
+
+    public Transaction (Bank bank, Timestamp timeStamp, double amount, String transactionType, Account owner, Account recipient) {
+        this(bank, timeStamp, amount, transactionType, owner);
 
         this.recipient = recipient;
     }
@@ -27,9 +30,12 @@ public class Transaction {
     public void execute() {
 
         owner.setBalance(owner.getBalance() + this.amount);
+        owner.addTransaction(this);
 
         if(recipient != null){
             recipient.setBalance(recipient.getBalance() - this.amount);
+            recipient.addTransaction(this);
         }
+
     }
 }
