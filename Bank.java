@@ -1,12 +1,14 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
+import java.time.LocalDateTime;
 
 public class Bank { 
     String bankName;
     private ArrayList<User> allUsers = new ArrayList<>();
     private ArrayList<Account> allAccounts = new ArrayList<>();
     private Stack<Transaction> allTransactions = new Stack<>();
+    User activeUser = null;
 
     public Bank (String bankName) {
         this.bankName = bankName;
@@ -91,13 +93,16 @@ public class Bank {
         System.out.print("Please enter your password: ");
         String inputPassword = in.nextLine();
         if (bank.correctPassword(inputUsername, inputPassword)) {
-            activeUser = bank.getAllUsers().get(bank.searchForUser(inputUsername));
-            System.out.println(activeUser);
+            this.activeUser = bank.getAllUsers().get(bank.searchForUser(inputUsername));
             return true;
         } else {
             System.out.println("Wrong password or username!");
             return false;
         }
+    }
+
+    public User setUser() {
+        return this.activeUser;
     }
 
     public int mainMenuSelect(Scanner in, Bank bank) {
@@ -118,7 +123,7 @@ public class Bank {
         return 14;
     }
 
-    public int accountCreationButton(Scanner in) {
+    public int accountCreateOrSelectButton(Scanner in) {
         System.out.println("How would you like to proceed?");
         System.out.println("1. Select existing bank account");
         System.out.println("0. Create a new bank account");
@@ -206,9 +211,8 @@ public class Bank {
         double amountWithdraw = in.nextDouble();
         in.nextLine();
         if (amountWithdraw < selectedAccount.getBalance()) {
-            Transaction withdraw = new Transaction(bank, null, -amountWithdraw, "Withdraw", selectedAccount);
+            Transaction withdraw = new Transaction(bank, LocalDateTime.now(), -amountWithdraw, "Withdraw", selectedAccount);
             withdraw.execute();
-            selectedAccount.addTransaction(withdraw);
             System.out.println("You successfully withdrew " + amountWithdraw + " Euro");
             System.out.println("Your new balance is " + selectedAccount.getBalance());
         } else {
@@ -220,9 +224,8 @@ public class Bank {
         System.out.print("Please enter the amount you would like to depsoit: ");
         double amountDeposit = in.nextDouble();
         in.nextLine();
-        Transaction deposit = new Transaction(bank, null, amountDeposit, "Withdraw", selectedAccount);
+        Transaction deposit = new Transaction(bank, LocalDateTime.now(), amountDeposit, "Deposit", selectedAccount);
         deposit.execute();
-        selectedAccount.addTransaction(deposit);
         System.out.println("You successfully deposited " + amountDeposit + " Euro");
         System.out.println("Your new balance is " + selectedAccount.getBalance() + " Euro");
     }
@@ -234,7 +237,6 @@ public class Bank {
             in.next();
         }
         int accountID = in.nextInt();
-        in.next();
         boolean accountExists = false;
         Account recipient = null;
         for (Account i : this.allAccounts) {
@@ -249,13 +251,11 @@ public class Bank {
         double amountTransfer = in.nextDouble();
         in.nextLine();
         if (amountTransfer < selectedAccount.getBalance()) {
-            Transaction transfer = new Transaction(bank, null, -amountTransfer, "Withdraw", selectedAccount, recipient);
+            Transaction transfer = new Transaction(bank, LocalDateTime.now(), -amountTransfer, "Transfer", selectedAccount, recipient);
             transfer.execute();
-            selectedAccount.addTransaction(transfer);
-            recipient.addTransaction(transfer);
             System.out.println("You successfully transferred " + amountTransfer + " Euro");
             System.out.println("Your new balance is " + selectedAccount.getBalance() + " Euro");
-        } else {
+        } else if (amountTransfer > selectedAccount.getBalance()) {
             System.out.println("You dont have enough money :(");
         }
         } else {
@@ -268,10 +268,17 @@ public class Bank {
     }
 
     public void accountGetHistory(Account selectedAccount) {
-        System.out.println();
-        // add
-        // stuff
-        // here
+        for (Transaction i : selectedAccount.getTransactions()) {
+            System.out.println("***********************");
+            System.out.println(i.transactionType);
+            System.out.println(i.timeStamp);
+            System.out.println("Transaction ID: " + i.transactionId);
+            System.out.println("Amount: " + i.amount);
+            if (i.transactionType.equals("Transfer")) {
+                System.out.println("Recipient Account ID: " + i.recipient.getAccountNumber());
+            }
+            System.out.println("***********************");
+        }
     }
 
     public void userLogout(User activeUser, Account selecetedAccount, int selectedAccountIndex) {

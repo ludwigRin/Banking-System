@@ -1,8 +1,8 @@
-import java.security.Timestamp;
+import java.time.LocalDateTime;
 
 public class Transaction {
     int transactionId;
-    Timestamp timeStamp;
+    LocalDateTime timeStamp;
     double amount;
     String transactionType;
     Account recipient;
@@ -11,7 +11,7 @@ public class Transaction {
 
 
     // constructor
-    public Transaction (Bank bank, Timestamp timeStamp, double amount, String transactionType, Account owner) {
+    public Transaction (Bank bank, LocalDateTime timeStamp, double amount, String transactionType, Account owner) {
         this.transactionId = bank.getAllTransactions().size();
         this.timeStamp = timeStamp;
         this.amount = amount;
@@ -20,7 +20,7 @@ public class Transaction {
     }
 
 
-    public Transaction (Bank bank, Timestamp timeStamp, double amount, String transactionType, Account owner, Account recipient) {
+    public Transaction (Bank bank, LocalDateTime timeStamp, double amount, String transactionType, Account owner, Account recipient) {
         this(bank, timeStamp, amount, transactionType, owner);
 
         this.recipient = recipient;

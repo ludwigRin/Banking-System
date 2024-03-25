@@ -30,7 +30,12 @@ public class Main {
         Account selectedAccount = null;
         int selectedAccountIndex = 0;
         boolean on = true;
-        
+
+        newBank.createUser("Ludwig", "123");
+        newBank.createUser("Alf", "123");
+        // newBank.getAllAccounts().get(0).createAccount
+
+
         do {
             switch (currentState){
 
@@ -41,15 +46,21 @@ public class Main {
                     currentState = newBank.mainMenuSelect(in, newBank);
                     break;
                 case STATE_BANK_LOGIN:
-                    newBank.bankLogIn(in, newBank, activeUser);
-                    currentState = STATE_USER_ACCOUNT_CREATE_OR_SELECT;
+                    if (newBank.bankLogIn(in, newBank, activeUser)){
+                        activeUser = newBank.setUser();
+                        currentState = STATE_USER_ACCOUNT_CREATE_OR_SELECT;
+                    } else {
+                        System.out.println("Wrong username or password!");
+                        currentState = STATE_BANK_MAIN_MENU;
+                    }
+                    System.out.println(activeUser);
                     break;
                 case STATE_BANK_CREATE_USER:
                     newBank.userCreation(in, newBank);
                     currentState = STATE_BANK_MAIN_MENU;
                     break;
                 case STATE_USER_ACCOUNT_CREATE_OR_SELECT:
-                    currentState = newBank.accountCreationButton(in);
+                    currentState = newBank.accountCreateOrSelectButton(in);
                     break;
                 case STATE_USER_ACCOUNT_SELECTION:
                     if (activeUser.getAccounts().size() >= 1) {
