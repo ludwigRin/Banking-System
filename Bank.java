@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Bank { 
     String bankName;
@@ -190,6 +191,7 @@ public class Bank {
         System.out.println("3. Transfer");
         System.out.println("4. Check Balance");
         System.out.println("5. Transaction History");
+        System.out.println("6. Account selection");
         System.out.println("0. Log Out");
         while (!in.hasNextInt()) {
             System.out.println("Please enter an integer from 0 to 5!");
@@ -202,6 +204,7 @@ public class Bank {
         if (choice == 3) return 10;
         if (choice == 4) return 11;
         if (choice == 5) return 12;
+        if (choice == 6) return 5;
         if (choice == 0) return 13;
         return 14;
     }
