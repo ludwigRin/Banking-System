@@ -33,7 +33,6 @@ public class Main {
 
         newBank.createUser("Ludwig", "123");
         newBank.createUser("Alf", "123");
-        // newBank.getAllAccounts().get(0).createAccount
 
 
         do {
@@ -46,14 +45,12 @@ public class Main {
                     currentState = newBank.mainMenuSelect(in, newBank);
                     break;
                 case STATE_BANK_LOGIN:
-                    if (newBank.bankLogIn(in, newBank, activeUser)){
+                    if (newBank.bankLogIn(in, newBank, activeUser)) {
                         activeUser = newBank.setUser();
                         currentState = STATE_USER_ACCOUNT_CREATE_OR_SELECT;
                     } else {
-                        System.out.println("Wrong username or password!");
                         currentState = STATE_BANK_MAIN_MENU;
                     }
-                    System.out.println(activeUser);
                     break;
                 case STATE_BANK_CREATE_USER:
                     newBank.userCreation(in, newBank);

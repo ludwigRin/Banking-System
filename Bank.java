@@ -34,7 +34,7 @@ public class Bank {
         return newAccount;
     }
 
-    public int searchForUser(String username) {
+    public int searchForUserIndex(String username) {
         for (User user : this.getAllUsers()) {
             if (user.getName().equals(username)) {
                 return this.getAllUsers().indexOf(user);
@@ -44,11 +44,15 @@ public class Bank {
     }
 
     public boolean correctPassword(String username, String password) {
-        if (this.getAllUsers().get(this.searchForUser(username)).getPassword().equals(password)) {
-            return true;
-        } else {
-            return false;
+        try {
+            if (this.getAllUsers().get(this.searchForUserIndex(username)).getPassword().equals(password)) {
+                return true;
+            }
         }
+        catch (Exception exception) {
+            return false;
+        } 
+        return false;
     }
 
     // setter
@@ -94,7 +98,7 @@ public class Bank {
         System.out.print("Please enter your password: ");
         String inputPassword = in.nextLine();
         if (bank.correctPassword(inputUsername, inputPassword)) {
-            this.activeUser = bank.getAllUsers().get(bank.searchForUser(inputUsername));
+            this.activeUser = bank.getAllUsers().get(bank.searchForUserIndex(inputUsername));
             return true;
         } else {
             System.out.println("Wrong password or username!");
@@ -112,11 +116,22 @@ public class Bank {
         System.out.println("1. Log in");
         System.out.println("2. Create an Account");
         System.out.println("0. Exit");
-        while (!in.hasNextInt()) {
-            System.out.println("Please enter an integer from 0 to 2!");
-            in.next();
+        boolean validated = false;
+        int choice;
+        do {
+            while (!in.hasNextInt()) {
+                System.out.println("Please enter an integer!");
+                in.next();
+            }
+            choice = in.nextInt();
+            if (validateIntInput(2, choice)) {
+                validated = true;
+            } else {
+                System.out.println("The interger has to be in range 0-2!");
+                continue;
+            }    
         }
-        int choice = in.nextInt();
+        while (!validated);
         in.nextLine();
         if (choice == 1) return 2;
         if (choice == 2) return 3;
@@ -128,11 +143,22 @@ public class Bank {
         System.out.println("How would you like to proceed?");
         System.out.println("1. Select existing bank account");
         System.out.println("0. Create a new bank account");
-        while (!in.hasNextInt()) {
-            System.out.println("Please enter an integer!");
-            in.next();
+        boolean validated = false;
+        int choice;
+        do {
+            while (!in.hasNextInt()) {
+                System.out.println("Please enter an integer!");
+                in.next();
+            }
+            choice = in.nextInt();
+            if (validateIntInput(2, choice)) {
+                validated = true;
+            } else {
+                System.out.println("The interger has to be in range 0-1!");
+                continue;
+            }
         }
-        int choice = in.nextInt();
+        while (!validated);
         in.nextLine();
         if (choice == 1) return 5;
         if (choice == 0) return 6;
@@ -142,11 +168,21 @@ public class Bank {
     public Account accountSelection(Scanner in, User activeUser, int selectedAccountIndex, Account selectedAccount) {
         activeUser.printAccounts();
         System.out.print("Please select the account you want to use: ");
-        while (!in.hasNextInt()) {
-            System.out.println("Please enter an integer!");
-            in.next();
+        boolean validated = false;
+        do {
+            while (!in.hasNextInt()) {
+                System.out.println("Please enter an integer!");
+                in.next();
+            }
+            selectedAccountIndex = in.nextInt();
+            if (validateIntInput(activeUser.getAccounts().size(), selectedAccountIndex)) {
+                validated = true;
+            } else {
+                System.out.println("The interger has to be in range 0-" + activeUser.getAccounts().size() + "!");
+                continue;
+            }
         }
-        selectedAccountIndex = in.nextInt();
+        while (!validated);
         in.nextLine();
         selectedAccount = activeUser.getAccounts().get(selectedAccountIndex - 1);
         return selectedAccount;
@@ -155,7 +191,7 @@ public class Bank {
     public void userCreation(Scanner in, Bank bank) {
         System.out.print("Please enter a username: ");
         String newUsername = in.nextLine();
-        if (bank.searchForUser(newUsername) != -1) {
+        if (bank.searchForUserIndex(newUsername) != -1) {
             System.out.println("The username already exists!");
         }
         System.out.print("Please enter a password: ");
@@ -172,14 +208,25 @@ public class Bank {
 
     public void accountCreation(Scanner in, User activeUser, Bank bank) {
         System.out.println("What type of bank account would you like to create?");
-        System.out.println("1. Basic");
-        System.out.println("2. Savings");
-        while (!in.hasNextInt()) {
-            System.out.println("Please enter an integer!");
-            in.next();
+        System.out.println("0. Basic");
+        System.out.println("1. Savings");
+        boolean validated = false;
+        int choice;
+        do {
+            while (!in.hasNextInt()) {
+                System.out.println("Please enter an integer!");
+                in.next();
+            }
+            choice = in.nextInt();
+            if (validateIntInput(1, choice)) {
+                validated = true;
+            } else {
+                System.out.println("The interger has to be in range 0-1!");
+                continue;
+            }
         }
-        int selection = in.nextInt();
-        String type = (selection < 2) ? "Basic" : "Savings";
+        while (!validated);
+        String type = (choice < 2) ? "Basic" : "Savings";
         bank.createAccount(type, activeUser);
     }
 
@@ -288,5 +335,10 @@ public class Bank {
         activeUser = null;
         selecetedAccount = null;
         selectedAccountIndex = 0;
+    }
+
+    public boolean validateIntInput(int range, int userIntInput) {
+        if (userIntInput >= 0 && userIntInput <= range) return true;
+    return false;
     }
 }
