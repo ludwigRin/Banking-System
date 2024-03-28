@@ -239,12 +239,24 @@ public class Bank {
         System.out.println("4. Check Balance");
         System.out.println("5. Transaction History");
         System.out.println("6. Account selection");
+        System.out.println("7. Create new bank account");
         System.out.println("0. Log Out");
-        while (!in.hasNextInt()) {
-            System.out.println("Please enter an integer from 0 to 5!");
-            in.next();
+        boolean validated = false;
+        int choice;
+        do {
+            while (!in.hasNextInt()) {
+                System.out.println("Please enter an integer!");
+                in.next();
+            }
+            choice = in.nextInt();
+            if (validateIntInput(7, choice)) {
+                validated = true;
+            } else {
+                System.out.println("The interger has to be in range 0-7!");
+                continue;
+            }    
         }
-        int choice = in.nextInt();
+        while (!validated);
         in.nextLine();
         if (choice == 1) return 8;
         if (choice == 2) return 9;
@@ -252,6 +264,7 @@ public class Bank {
         if (choice == 4) return 11;
         if (choice == 5) return 12;
         if (choice == 6) return 5;
+        if (choice == 7) return 6;
         if (choice == 0) return 13;
         return 14;
     }
@@ -296,13 +309,14 @@ public class Bank {
             }
         }
         if (accountExists) {
-        
         System.out.print("Please enter the amount you would like to transfer: ");
         double amountTransfer = in.nextDouble();
         in.nextLine();
         if (amountTransfer < selectedAccount.getBalance()) {
             Transaction transfer = new Transaction(bank, LocalDateTime.now(), -amountTransfer, "Transfer", selectedAccount, recipient);
             transfer.execute();
+            Transaction receivedTransaction = new Transaction(bank, LocalDateTime.now(), amountTransfer, "Received Transfer", selectedAccount, recipient);
+            recipient.addTransaction(receivedTransaction);
             System.out.println("You successfully transferred " + amountTransfer + " Euro");
             System.out.println("Your new balance is " + selectedAccount.getBalance() + " Euro");
         } else if (amountTransfer > selectedAccount.getBalance()) {
@@ -322,10 +336,12 @@ public class Bank {
             System.out.println("***********************");
             System.out.println(i.transactionType);
             System.out.println(i.timeStamp);
-            System.out.println("Transaction ID: " + i.transactionId);
             System.out.println("Amount: " + i.amount);
             if (i.transactionType.equals("Transfer")) {
-                System.out.println("Recipient Account ID: " + i.recipient.getAccountNumber());
+                System.out.println("Recipient" + i.recipient.getUser().getName());
+            }
+            if (i.transactionType.equals("Received Transfer")) {
+                System.out.println("Received from" + i.owner.getUser().getName());
             }
             System.out.println("***********************");
         }

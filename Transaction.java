@@ -35,7 +35,6 @@ public class Transaction {
 
         if(recipient != null){
             recipient.setBalance(recipient.getBalance() - this.amount);
-            recipient.addTransaction(this);
         }
 
     }
