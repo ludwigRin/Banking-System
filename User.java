@@ -94,30 +94,4 @@ class User {
             return false;
         }
     }
-    
-
-    
-    // // public void changePassword() {
-
-    // //     // check current password
-    // //     System.out.print("Enter your current password: ");
-    // //     String oldPassword = in.nextLine();
-        
-    // //     // validate current password
-    // //     if (oldPassword.equals(password)) {
-    // //         System.out.print("Please enter a new password: ");
-    // //         String newPassword = in.nextLine();
-    // //         System.out.print("Please enter your new password again: ");
-    // //         String validateNewPassword = in.nextLine();
-            
-    // //         // change password
-    // //         if (newPassword.equals(validateNewPassword)) {
-    // //             setPassword(newPassword);
-    // //             System.out.println("Password changed successfully!");
-    // //         }
-    // //     } else {
-    // //         System.out.println("Wrong password!");
-    // //     }
-    // //     in.close();
-    // }
 }

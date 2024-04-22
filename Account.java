@@ -45,7 +45,9 @@ public class Account {
     public ArrayList<Transaction> getTransactions() {
         return transactions;
     }
-
+    public User getUser() {
+        return user;
+    }
 
     // setter
     public void setAccountType(String newType) {
